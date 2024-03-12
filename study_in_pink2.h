@@ -18,27 +18,42 @@
 ////////////////////////////////////////////////////////////////////////
 
 // Forward declaration
+//Check init Map
  class MapElement;
  class Map;
  class Position;
+ 
+ //Check init Objects
  class MovingObject;
  class Sherlock;
  class Watson;
  class Criminal;
+
+ //Check init array
  class ArrayMovingObject;
+
+ //Chech config
  class Configuration;
+
+ //Recheck Object
  class Character;
+
+ //Check init Robot
  class Robot;
  class RobotC;
  class RobotS;
  class RobotW;
  class RobotSW;
+
+ //Check init Item
  class BaseItem;
  class MagicBook;
  class EnergyDrink;
  class FirstAid;
  class ExcemptionCard;
  class PassingCard;
+
+ //Check init Bag
  class BaseBag;
  class SherlockBag;
  class WatsonBag;
