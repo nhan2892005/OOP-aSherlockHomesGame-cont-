@@ -11,10 +11,11 @@
 
 using namespace std;
 void g_satc_02() { // global
+    string test_input_file = "sa_tc_02_config";
     cout << "----- Sample Testcase 02 -----" << endl;
-    Configuration * config = new Configuration("sa_tc_02_config");
-    cout << config->str() << endl;
-    delete config;
+    StudyPinkProgram * program = new StudyPinkProgram(test_input_file);
+    program->run(1);
+    delete program;
 }
 
 class TestStudyInPink {
@@ -103,7 +104,7 @@ public:
 };
 
 int main(int argc, const char * argv[]) {
-    TestStudyInPink::satc_01();
+   // TestStudyInPink::satc_01();
     TestStudyInPink::satc_02();
     //TestStudyInPink::satc_03();
     return 0;

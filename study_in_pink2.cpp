@@ -204,6 +204,9 @@ MovingObject::MovingObject( int index,
                             const string &name)
     : index(index), pos(pos), map(map), name(name) {}
 
+void MovingObject::getStep(int istep){
+    this->step = istep;
+}
 MovingObject::~MovingObject() 
 {
     ;
@@ -238,8 +241,7 @@ Sherlock::Sherlock( int index,
 }
 char Sherlock::getNextMoving()
 {
-    
-    return 'R';
+    return moving_rule[(this->step - 1) % this->moving_rule.size()];
 }
 Position Sherlock::getNextPosition()
 {
@@ -313,8 +315,7 @@ Watson::Watson( int index,
 }
 char Watson::getNextMoving()
 {
-    
-    return 'L';
+    return moving_rule[(this->step - 1) % this->moving_rule.size()];
 }
 Position Watson::getNextPosition()
 {
@@ -367,6 +368,18 @@ string Watson::str() const
 int Watson::getEXP()
 {
     return exp;
+}
+int Watson::getHP()
+{
+    return hp;
+}
+int Sherlock::getEXP()
+{
+    return exp;
+}
+int Sherlock::getHP()
+{
+    return hp;
 }
 Watson::~Watson()
 {
@@ -628,6 +641,97 @@ int Configuration::getNumStep(){
     return num_steps;
 }
 
+
+
+void Configuration::init_info_program(  Sherlock * &sherlock,
+                                        Watson * &watson,
+                                        Criminal * &criminal,
+                                        Map * &map,
+                                        ArrayMovingObject * &arr_mv_oj)
+{
+    map = new Map(map_num_rows, 
+                        map_num_cols, 
+                        num_walls, 
+                        arr_walls, 
+                        num_fake_walls, 
+                        arr_fake_walls);
+    
+    sherlock = new Sherlock( 1, 
+                                        sherlock_moving_rule, 
+                                        sherlock_init_pos, 
+                                        map,
+                                        sherlock_init_hp, 
+                                        sherlock_init_exp);
+    watson = new Watson(   2,
+                                    watson_moving_rule, 
+                                    watson_init_pos, 
+                                    map, 
+                                    watson_init_hp, 
+                                    watson_init_exp);
+    criminal = new Criminal( 0, 
+                                        criminal_init_pos, 
+                                        map, 
+                                        sherlock, 
+                                        watson);
+    arr_mv_oj = new ArrayMovingObject(max_num_moving_objects);
+    arr_mv_oj->add(criminal);
+    arr_mv_oj->add(sherlock);
+    arr_mv_oj->add(watson);
+}
+
+StudyPinkProgram::StudyPinkProgram(const string & config_file_path)
+{
+
+    config = new Configuration(config_file_path);
+    config->init_info_program(sherlock, watson, criminal, map, arr_mv_objs);
+};
+bool StudyPinkProgram::isStop() const
+{
+    if (sherlock->getCurrentPosition().isEqual( criminal->getCurrentPosition().getRow(),
+                                                criminal->getCurrentPosition().getRow())
+      ||watson->getCurrentPosition().isEqual(   criminal->getCurrentPosition().getRow(),
+                                                criminal->getCurrentPosition().getRow())
+      ||sherlock->getHP() == 0 || watson->getHP() == 0)
+    {
+        return true;
+    }
+    return false;
+}
+int ArrayMovingObject::getCount(){
+    return count;
+}
+MovingObject * ArrayMovingObject::get(int i)
+{
+    return arr_mv_objs[i];
+}
+void StudyPinkProgram::run(bool verbose){
+    
+    for (int istep = 1; istep <= config->getNumStep(); ++istep) {
+        int numMovingObjects = arr_mv_objs->getCount();
+        for (int i = 0; i < numMovingObjects; ++i) {
+            MovingObject * mv_oj = arr_mv_objs->get(i);
+            mv_oj->getStep(istep);
+            mv_oj->move();
+            if (isStop()) {
+                printStep(istep);
+                break;
+            }
+            if (verbose) {
+                printStep(istep);
+            }
+        }
+    }
+    printResult();
+}
+StudyPinkProgram::~StudyPinkProgram()
+{
+    delete config;
+    delete arr_mv_objs;
+    delete sherlock;
+    delete watson;
+    delete criminal;
+    delete map;
+}
 ////////////////////////////////////////////////
 /// END OF STUDENT'S ANSWER
 ////////////////////////////////////////////////

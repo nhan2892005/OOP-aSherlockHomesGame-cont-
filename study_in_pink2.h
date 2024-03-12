@@ -177,11 +177,14 @@ class MovingObject
         virtual string str() const = 0;
         // set up get Name
         string getName() const;
+        // set up Step for Object
+        void getStep(int istep);
     protected:
         int index;
         Position pos;
         Map * map;
         string name;      
+        int step = 1;
 };
                             /*
                                 HCMUT 14:34 10/03/2024
@@ -199,6 +202,8 @@ class Sherlock : public MovingObject
         string str() const;
         //////////////////////////
         char getNextMoving();
+        int getEXP();
+        int getHP();
         //////////////////////////
     private:
         string moving_rule;
@@ -222,10 +227,11 @@ class Watson : public MovingObject
         Position getNextPosition();
         void move();
         string str() const;
-        int getEXP();
         ~Watson();
         //////////////////////
         char getNextMoving();
+        int getEXP();
+        int getHP();
         /////////////////////
     private:
         string moving_rule;
@@ -263,6 +269,11 @@ class Configuration
         ~Configuration();
         string str() const;
         /////////////////
+        void init_info_program( Sherlock * &sherlock,
+                                Watson * &watson,
+                                Criminal * &criminal,
+                                Map * &map,
+                                ArrayMovingObject * &arr_mv_oj);
         int numElement(string temp);
         int getNumStep();
         void init_pos(Position &mv_obj_pos, string line);
@@ -297,14 +308,20 @@ class ArrayMovingObject
         string str() const;
         ////////////////
         int maxSize();
-        //MovingObject* get(int i);
+        int getCount();
+        MovingObject* get(int i);
         ////////////////
     private:
         MovingObject** arr_mv_objs;
         int count;
         int capacity;
 };
-/*
+
+class Robot
+{
+
+};
+
 class StudyPinkProgram {
 private:
     Configuration * config;
@@ -312,14 +329,11 @@ private:
     Watson * watson;
     Criminal * criminal;
     Map * map;
-    ArrayMovingObject ** arr_mv_objs;
-
+    ArrayMovingObject * arr_mv_objs;
 
 public:
     StudyPinkProgram(const string & config_file_path);
-
     bool isStop() const;
-
     void printResult() const {
         if (sherlock->getCurrentPosition().isEqual( criminal->getCurrentPosition().getRow(),
                                                     criminal->getCurrentPosition().getRow())) {
@@ -343,7 +357,9 @@ public:
     void run(bool verbose);
 
     ~StudyPinkProgram();
-};*/
+
+    friend class TestStudyInPink;
+};
 /*
 class ArrayMovingObject {
 private:
