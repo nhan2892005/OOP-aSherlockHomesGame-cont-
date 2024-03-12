@@ -231,7 +231,7 @@ Sherlock::Sherlock( int index,
                     Map *map, 
                     int init_hp, 
                     int init_exp)
-    :   MovingObject(index, init_pos, map, "Sherlock"),
+    :   Character(index, init_pos, map, 1,"Sherlock"),
         moving_rule(moving_rule),
         hp(init_hp),
         exp(init_exp)
@@ -305,7 +305,7 @@ Watson::Watson( int index,
                 Map *map, 
                 int init_hp, 
                 int init_exp)
-    :   MovingObject(index, init_pos, map, "Watson"),
+    :   Character(index, init_pos, map, 1,"Watson"),
         moving_rule(moving_rule),
         hp(init_hp),
         exp(init_exp)
@@ -394,7 +394,7 @@ Criminal::Criminal( int index ,
                     const Position & init_pos , 
                     Map * map , Sherlock * sherlock , 
                     Watson * watson)
-    :MovingObject(index,init_pos,map,"Criminal"),
+    :Character(index,init_pos,map,1,"Criminal"),
     sherlock(sherlock),
     watson(watson){}
 
@@ -942,6 +942,14 @@ RobotSW::RobotSW(   int index,
         criminal(criminal), 
         sherlock(sherlock), 
         watson(watson)
+{}
+
+Character::Character(  int index,
+                    const Position & init_pos,
+                    Map * map,
+                    bool pass,
+                    const string & name)
+    :MovingObject(index, init_pos, map, name), pass(pass)
 {}
 ////////////////////////////////////////////////
 // HCMUT 23:37 12/03/2024

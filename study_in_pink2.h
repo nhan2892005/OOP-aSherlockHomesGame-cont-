@@ -176,7 +176,7 @@ class MovingObject
                         const string & name="");
         virtual ~MovingObject();
         virtual Position getNextPosition() = 0;
-        Position getCurrentPosition() const;
+        virtual Position getCurrentPosition() const;
         virtual void move() = 0;
         virtual string str() const = 0;
         // set up get Name
@@ -190,12 +190,25 @@ class MovingObject
         string name;      
         int step = 1;
 };
+
+class Character : public MovingObject
+{
+    public:
+        Character(  int index,
+                    const Position & init_pos,
+                    Map * map,
+                    bool pass,
+                    const string & name="");
+        
+    private:
+        bool pass;
+};
                             /*
                                 HCMUT 14:34 10/03/2024
                                 Class Position
                                 Done
                             */
-class Sherlock : public MovingObject
+class Sherlock : public Character
 {
     public:
         friend class TestStudyInPink;
@@ -218,7 +231,7 @@ class Sherlock : public MovingObject
                                 Class Sherlock
                                 Done
                             */
-class Watson : public MovingObject
+class Watson : public Character
 {
     public:
         friend class TestStudyInPink;
@@ -246,7 +259,7 @@ class Watson : public MovingObject
                                 Class Watson
                                 Done
                             */
-class Criminal : public MovingObject
+class Criminal : public Character
 {
     public:
         friend class TestStudyInPink;
