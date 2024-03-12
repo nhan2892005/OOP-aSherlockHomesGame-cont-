@@ -732,6 +732,107 @@ StudyPinkProgram::~StudyPinkProgram()
     delete criminal;
     delete map;
 }
+
+string Robot::str()
+{
+    string s =  "Robot[pos=" + pos.str() + 
+                ";type=" + 
+                to_string(robot_type) + 
+                ";dist=" + 
+                to_string(getDistance());
+    return s;
+}
+
+void Robot::move()
+{
+    Position next_pos = getNextPosition();
+    if (!next_pos.isEqual(Position::npos.getRow(), Position::npos.getCol()))
+    {
+        pos = next_pos;
+    }
+}
+
+Position RobotC::getNextPosition()
+{
+    return criminal->getCurrentPosition();
+}
+Position RobotS::getNextPosition()
+{
+    int maxDistance = -1;
+    Position Sherlock_pos = sherlock->getCurrentPosition();
+    Position next_pos = Position::npos;
+    for (int i = 1; i <= 4; i++){
+        Position temp_pos = this->getCurrentPosition();
+        switch (i)
+        {
+        case 1:
+            temp_pos.setRow(temp_pos.getRow() - 1);
+            break;
+        case 2:
+            temp_pos.setCol(temp_pos.getCol() + 1);
+            break;
+        case 3:
+            temp_pos.setRow(temp_pos.getRow() + 1);
+            break;
+        case 4:
+            temp_pos.setCol(temp_pos.getCol() - 1);
+            break;
+        default:
+            break;
+        }
+        if (map->isValid(temp_pos,this)){
+            if (ManhattanDistance(Sherlock_pos, temp_pos)
+                > maxDistance)
+            {
+                maxDistance =   ManhattanDistance(Sherlock_pos, next_pos);
+                next_pos = temp_pos;
+            }
+        
+        }
+    }
+    return next_pos;
+}
+Position RobotW::getNextPosition()
+{
+
+    int maxDistance = -1;
+    Position Watson_pos = watson->getCurrentPosition();
+    Position next_pos = Position::npos;
+    for (int i = 1; i <= 4; i++){
+        Position temp_pos = this->getCurrentPosition();
+        switch (i)
+        {
+        case 1:
+            temp_pos.setRow(temp_pos.getRow() - 1);
+            break;
+        case 2:
+            temp_pos.setCol(temp_pos.getCol() + 1);
+            break;
+        case 3:
+            temp_pos.setRow(temp_pos.getRow() + 1);
+            break;
+        case 4:
+            temp_pos.setCol(temp_pos.getCol() - 1);
+            break;
+        default:
+            break;
+        }
+        if (map->isValid(temp_pos,this)){
+            if (ManhattanDistance(Watson_pos, temp_pos)
+                > maxDistance)
+            {
+                maxDistance =   ManhattanDistance(Watson_pos, next_pos);
+                next_pos = temp_pos;
+            }
+        
+        }
+    }
+    return next_pos;
+}
+Position RobotSW::getNextPosition()
+{
+    ;
+}
 ////////////////////////////////////////////////
 /// END OF STUDENT'S ANSWER
 ////////////////////////////////////////////////

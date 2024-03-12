@@ -360,6 +360,84 @@ public:
 
     friend class TestStudyInPink;
 };
+
+class Robot : public MovingObject
+{
+    public:
+        virtual Robot();
+        virtual Position getNextPosition() = 0;
+        void move();
+        virtual int getDistance();
+        string str();
+    private:
+        RobotType robot_type;
+        BaseItem * item;
+};
+
+class RobotC : public Robot
+{
+    public:
+        RobotC( int index, 
+                const Position & init_pos,
+                Map * map,
+                RobotType robot_type,
+                Criminal * criminal,
+                );
+        Position getNextPosition();
+    private:
+        Criminal * criminal;
+};
+
+class RobotS : public Robot
+{
+    public:
+        RobotS( int index, 
+                const Position & init_pos,
+                Map * map,
+                RobotType robot_type,
+                Criminal * criminal,
+                Sherlock * sherlock
+                );
+        Position getNextPosition();
+    private:
+        Criminal * criminal;
+        Sherlock * sherlock;
+};
+
+class RobotW : public Robot
+{
+    public:
+        RobotW( int index, 
+                const Position & init_pos,
+                Map * map,
+                RobotType robot_type,
+                Criminal * criminal,
+                Watson * watson
+                );
+        Position getNextPosition();
+    private:
+        Criminal * criminal;
+        Watson * watson;
+
+};
+
+class RobotSW : public Robot
+{
+    public:
+        RobotSW( int index, 
+                const Position & init_pos,
+                Map * map,
+                RobotType robot_type,
+                Criminal * criminal,
+                Sherlock * sherlock,
+                Watson * watson
+                );
+        Position getNextPosition();
+    private:
+        Criminal * criminal;
+        Sherlock * sherlock;
+        Watson * watson;
+};
 /*
 class ArrayMovingObject {
 private:
