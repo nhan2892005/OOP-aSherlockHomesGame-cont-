@@ -657,22 +657,22 @@ void Configuration::init_info_program(  Sherlock * &sherlock,
                         arr_fake_walls);
     
     sherlock = new Sherlock( 1, 
-                                        sherlock_moving_rule, 
-                                        sherlock_init_pos, 
-                                        map,
-                                        sherlock_init_hp, 
-                                        sherlock_init_exp);
+                            sherlock_moving_rule, 
+                            sherlock_init_pos, 
+                            map,
+                            sherlock_init_hp, 
+                            sherlock_init_exp);
     watson = new Watson(   2,
-                                    watson_moving_rule, 
-                                    watson_init_pos, 
-                                    map, 
-                                    watson_init_hp, 
-                                    watson_init_exp);
+                            watson_moving_rule, 
+                            watson_init_pos, 
+                            map, 
+                            watson_init_hp, 
+                            watson_init_exp);
     criminal = new Criminal( 0, 
-                                        criminal_init_pos, 
-                                        map, 
-                                        sherlock, 
-                                        watson);
+                            criminal_init_pos, 
+                            map, 
+                            sherlock, 
+                            watson);
     arr_mv_oj = new ArrayMovingObject(max_num_moving_objects);
     arr_mv_oj->add(criminal);
     arr_mv_oj->add(sherlock);
