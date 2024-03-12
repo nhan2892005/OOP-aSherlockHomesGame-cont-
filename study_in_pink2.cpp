@@ -901,6 +901,49 @@ int RobotC::getDistance(Watson * watson)
     Position watson_pos = watson->getCurrentPosition();
     return ManhattanDistance(robot_pos, watson_pos);
 }
+
+Robot::Robot(  int index,
+                const Position & init_pos,
+                Map * map,
+                RobotType robot_type)
+    :MovingObject(index, pos, map), robot_type(robot_type)
+{}
+RobotC::RobotC(   int index,
+                const Position & init_pos,
+                Map * map,
+                RobotType robot_type,
+                Criminal * criminal)
+    :Robot(index, pos, map, robot_type), criminal(criminal)
+{}
+RobotS::RobotS(   int index,
+                const Position & init_pos,
+                Map * map,
+                RobotType robot_type,
+                Criminal * criminal,
+                Sherlock *sherlock)
+    :Robot(index, pos, map, robot_type), criminal(criminal), sherlock(sherlock)
+{}
+RobotW::RobotW(   int index,
+                const Position & init_pos,
+                Map * map,
+                RobotType robot_type,
+                Criminal * criminal,
+                Watson *watson)
+    :Robot(index, pos, map, robot_type), criminal(criminal), watson(watson)
+{}
+RobotSW::RobotSW(   int index,
+                const Position & init_pos,
+                Map * map,
+                RobotType robot_type,
+                Criminal * criminal,
+                Sherlock * sherlock,
+                Watson * watson)
+    :   Robot(index, pos, map, robot_type), 
+        criminal(criminal), 
+        sherlock(sherlock), 
+        watson(watson)
+{}
 ////////////////////////////////////////////////
-/// END OF STUDENT'S ANSWER
+// HCMUT 23:37 12/03/2024
+// DONE
 ////////////////////////////////////////////////

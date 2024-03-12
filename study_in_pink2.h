@@ -18,27 +18,38 @@
 ////////////////////////////////////////////////////////////////////////
 
 // Forward declaration
- class MovingObject;
- class Position;
- class Configuration;
+ class MapElement;
  class Map;
+ class Position;
+
+ class MovingObject;
  class Sherlock;
  class Watson;
  class Criminal;
+ class ArrayMovingObject;
 
+ class Configuration;
+ 
+ class Character;
+ 
  class Robot;
+ class RobotC;
  class RobotS;
  class RobotW;
  class RobotSW;
- class RobotC;
-
- class ArrayMovingObject;
- class StudyPinkProgram;
 
  class BaseItem;
+ class MagicBook;
+ class EnergyDrink;
+ class FirstAid;
+ class ExcemptionCard;
+ class PassingCard;
+
  class BaseBag;
  class SherlockBag;
  class WatsonBag;
+
+ class StudyPinkProgram;
 
 //TestStudyInPink declare in main.cpp
 //We call it to avoid error calling 
@@ -359,7 +370,10 @@ public:
 class Robot : public MovingObject
 {
     public:
-        Robot();
+        Robot(  int index,
+                const Position & init_pos,
+                Map * map,
+                RobotType robot_type);
         virtual Position getNextPosition() = 0;
         void move();
         //virtual int getDistance();
