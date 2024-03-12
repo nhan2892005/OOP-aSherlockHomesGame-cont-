@@ -317,11 +317,6 @@ class ArrayMovingObject
         int capacity;
 };
 
-class Robot
-{
-
-};
-
 class StudyPinkProgram {
 private:
     Configuration * config;
@@ -364,10 +359,10 @@ public:
 class Robot : public MovingObject
 {
     public:
-        virtual Robot();
+        Robot();
         virtual Position getNextPosition() = 0;
         void move();
-        virtual int getDistance();
+        //virtual int getDistance();
         string str();
     private:
         RobotType robot_type;
@@ -381,9 +376,11 @@ class RobotC : public Robot
                 const Position & init_pos,
                 Map * map,
                 RobotType robot_type,
-                Criminal * criminal,
+                Criminal * criminal
                 );
         Position getNextPosition();
+        int getDistance(Sherlock * sherlock);
+        int getDistance(Watson * watson);
     private:
         Criminal * criminal;
 };
@@ -399,6 +396,7 @@ class RobotS : public Robot
                 Sherlock * sherlock
                 );
         Position getNextPosition();
+        int getDistance();
     private:
         Criminal * criminal;
         Sherlock * sherlock;
@@ -415,6 +413,7 @@ class RobotW : public Robot
                 Watson * watson
                 );
         Position getNextPosition();
+        int getDistance();
     private:
         Criminal * criminal;
         Watson * watson;
@@ -433,6 +432,7 @@ class RobotSW : public Robot
                 Watson * watson
                 );
         Position getNextPosition();
+        int getDistance();
     private:
         Criminal * criminal;
         Sherlock * sherlock;

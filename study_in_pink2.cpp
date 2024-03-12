@@ -738,8 +738,8 @@ string Robot::str()
     string s =  "Robot[pos=" + pos.str() + 
                 ";type=" + 
                 to_string(robot_type) + 
-                ";dist=" + 
-                to_string(getDistance());
+                ";dist=" ;//+ 
+                //to_string(getDistance());
     return s;
 }
 
@@ -831,7 +831,75 @@ Position RobotW::getNextPosition()
 }
 Position RobotSW::getNextPosition()
 {
-    ;
+    int maxDistance = -1;
+    Position Sherlock_pos = sherlock->getCurrentPosition();
+    Position Watson_pos = watson->getCurrentPosition();
+    Position next_pos = Position::npos;
+    for (int i = 1; i <= 4; i++){
+        Position temp_pos = this->getCurrentPosition();
+        switch (i)
+        {
+        case 1:
+            temp_pos.setRow(temp_pos.getRow() - 2);
+            break;
+        case 2:
+            temp_pos.setCol(temp_pos.getCol() + 2);
+            break;
+        case 3:
+            temp_pos.setRow(temp_pos.getRow() + 2);
+            break;
+        case 4:
+            temp_pos.setCol(temp_pos.getCol() - 2);
+            break;
+        default:
+            break;
+        }
+        if (map->isValid(temp_pos,this)){
+            if (ManhattanDistance(Sherlock_pos, temp_pos)+
+                ManhattanDistance(Watson_pos, temp_pos)
+                > maxDistance)
+            {
+                maxDistance =   ManhattanDistance(Sherlock_pos, next_pos)+
+                                ManhattanDistance(Watson_pos, next_pos);
+                next_pos = temp_pos;
+            }
+        }
+    }
+    return next_pos;
+}
+
+int RobotSW::getDistance()
+{
+    Position robot_pos = this->getCurrentPosition();
+    Position sherlock_pos = sherlock->getCurrentPosition();
+    Position watson_pos = watson->getCurrentPosition();
+    return  ManhattanDistance(robot_pos, sherlock_pos)+
+            ManhattanDistance(robot_pos, watson_pos);
+}
+int RobotS::getDistance()
+{
+    Position robot_pos = this->getCurrentPosition();
+    Position sherlock_pos = sherlock->getCurrentPosition();
+    return  ManhattanDistance(robot_pos, sherlock_pos);
+}
+int RobotW::getDistance()
+{
+    Position robot_pos = this->getCurrentPosition();    
+    Position watson_pos = watson->getCurrentPosition();
+    return ManhattanDistance(robot_pos, watson_pos);
+}
+int RobotC::getDistance(Sherlock * sherlock)
+{
+    Position robot_pos = this->getCurrentPosition();
+    Position sherlock_pos = sherlock->getCurrentPosition();
+    return  ManhattanDistance(robot_pos, sherlock_pos);
+}
+
+int RobotC::getDistance(Watson * watson)
+{
+    Position robot_pos = this->getCurrentPosition();    
+    Position watson_pos = watson->getCurrentPosition();
+    return ManhattanDistance(robot_pos, watson_pos);
 }
 ////////////////////////////////////////////////
 /// END OF STUDENT'S ANSWER
