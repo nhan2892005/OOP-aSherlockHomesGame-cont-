@@ -21,34 +21,27 @@
  class MapElement;
  class Map;
  class Position;
-
  class MovingObject;
  class Sherlock;
  class Watson;
  class Criminal;
  class ArrayMovingObject;
-
  class Configuration;
- 
  class Character;
- 
  class Robot;
  class RobotC;
  class RobotS;
  class RobotW;
  class RobotSW;
-
  class BaseItem;
  class MagicBook;
  class EnergyDrink;
  class FirstAid;
  class ExcemptionCard;
  class PassingCard;
-
  class BaseBag;
  class SherlockBag;
  class WatsonBag;
-
  class StudyPinkProgram;
 
 //TestStudyInPink declare in main.cpp
