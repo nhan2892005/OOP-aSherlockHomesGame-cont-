@@ -397,9 +397,8 @@ class Robot : public MovingObject
                 RobotType robot_type);
         virtual Position getNextPosition() = 0;
         void move();
-        //virtual int getDistance();
-        string str();
-    private:
+        virtual string str() const;
+    protected:
         RobotType robot_type;
         BaseItem * item;
 };
@@ -416,6 +415,7 @@ class RobotC : public Robot
         Position getNextPosition();
         int getDistance(Sherlock * sherlock);
         int getDistance(Watson * watson);
+        string str();
     private:
         Criminal * criminal;
 };
@@ -432,6 +432,7 @@ class RobotS : public Robot
                 );
         Position getNextPosition();
         int getDistance();
+        string str();
     private:
         Criminal * criminal;
         Sherlock * sherlock;
@@ -449,6 +450,7 @@ class RobotW : public Robot
                 );
         Position getNextPosition();
         int getDistance();
+        string str();
     private:
         Criminal * criminal;
         Watson * watson;
@@ -468,6 +470,7 @@ class RobotSW : public Robot
                 );
         Position getNextPosition();
         int getDistance();
+        string str();
     private:
         Criminal * criminal;
         Sherlock * sherlock;

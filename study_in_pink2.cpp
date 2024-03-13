@@ -732,14 +732,39 @@ StudyPinkProgram::~StudyPinkProgram()
     delete criminal;
     delete map;
 }
-
-string Robot::str()
+string Robot::str() const
+{
+    return "";
+}
+string RobotC::str()
+{
+    return "";
+}
+string RobotSW::str()
 {
     string s =  "Robot[pos=" + pos.str() + 
                 ";type=" + 
                 to_string(robot_type) + 
-                ";dist=" ;//+ 
-                //to_string(getDistance());
+                ";dist=" + 
+                to_string(getDistance());
+    return s;
+}
+string RobotS::str()
+{
+    string s =  "Robot[pos=" + pos.str() + 
+                ";type=" + 
+                to_string(robot_type) + 
+                ";dist=" + 
+                to_string(getDistance());
+    return s;
+}
+string RobotW::str()
+{
+    string s =  "Robot[pos=" + pos.str() + 
+                ";type=" + 
+                to_string(robot_type) + 
+                ";dist=" + 
+                to_string(getDistance());
     return s;
 }
 
