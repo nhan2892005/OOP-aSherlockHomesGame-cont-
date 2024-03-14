@@ -11,6 +11,19 @@ void checkValue(int &value, int max_value){
 int ManhattanDistance(const Position &pos1, const Position &pos2){
     return abs(pos1.getRow() - pos2.getRow()) + abs(pos1.getCol() - pos2.getCol());
 }
+/*Ta định nghĩa số chủ đạo của một số là giá trị tổng
+các chữ số, cho đến khi giá trị tổng đó là số có 1 chữ số*/
+int sumOfNum(int num){
+    int sum = 0;
+    while (num > 0){
+        sum += num % 10;
+        num /= 10;
+    }
+    if (sum > 9){
+        return sumOfNum(sum);
+    }
+    return sum;
+}
 // global function
 
 MapElement::MapElement(ElementType in_type) 
@@ -394,7 +407,7 @@ Criminal::Criminal( int index ,
                     const Position & init_pos , 
                     Map * map , Sherlock * sherlock , 
                     Watson * watson)
-    :Character(index,init_pos,map,1,"Criminal"),
+    :MovingObject(index,init_pos,map,"Criminal"),
     sherlock(sherlock),
     watson(watson){}
 
@@ -932,7 +945,43 @@ Robot::Robot(  int index,
                 Map * map,
                 RobotType robot_type)
     :MovingObject(index, pos, map), robot_type(robot_type)
-{}
+{
+    Position pos_create_item = this->pos;
+    int p = pos_create_item.getRow() * pos_create_item.getCol();
+    int s = sumOfNum(p);
+    /*
+    •Nếu s nằm trong đoạn [0, 1] thì sẽ tạo ra MagicBook
+•Nếu s nằm trong đoạn [2, 3] thì sẽ tạo ra EnergyDrink
+•Nếu s nằm trong đoạn [4, 5] thì sẽ tạo ra FirstAid
+•Nếu s nằm trong đoạn [6,7] thì sẽ tạo ra ExcemptionCard
+•Nếu s nằm trong đoạn [8, 9] thì sẽ tạo ra PassingCard. Đặt t = (i ∗11 + j)%4. Thuộc
+tính challenge của PassingCard được khởi tạo như sau:
+– t = 0: challenge = "RobotS"
+– t = 1: challenge = "RobotC"
+– t = 2: challenge = "RobotSW"
+– t = 3: challenge = "all"
+BaseItem * item;
+    */
+    if (s >= 0 && s <= 1){
+        item = new MagicBook();
+    }
+    else if (s >= 2 && s <= 3){
+        item = new EnergyDrink();
+    }
+    else if (s >= 4 && s <= 5){
+        item = new FirstAid();
+    }
+    else if (s >= 6 && s <= 7){
+        item = new ExcemptionCard();
+    }
+    else if (s >= 8 && s <= 9){
+        item = new PassingCard();
+        PassingCard * temp = (PassingCard*)item;
+        temp->setType((pos_create_item.getRow() * 11 + pos_create_item.getCol()) % 4);
+        item = temp;
+        delete temp;
+    }
+}
 RobotC::RobotC(   int index,
                 const Position & init_pos,
                 Map * map,
@@ -976,6 +1025,143 @@ Character::Character(  int index,
                     const string & name)
     :MovingObject(index, init_pos, map, name), pass(pass)
 {}
+void Sherlock::changeEXP(double change)
+{
+    if (abs(change - int(change)) > 1e-9) {
+        change = ceil(change);
+    }
+    exp += (int)change;
+    checkValue(exp, max_exp);
+}
+void Sherlock::changeHP(double change)
+{
+    if (abs(change - int(change)) > 1e-9) {
+        change = ceil(change);
+    }
+    hp += (int)change;
+    checkValue(exp, max_hp);
+}
+void Watson::changeEXP(double change)
+{
+    if (abs(change - int(change)) > 1e-9) {
+        change = ceil(change);
+    }
+    exp += (int)change;
+    checkValue(exp, max_exp);
+}
+void Watson::changeHP(double change)
+{
+    if (abs(change - int(change)) > 1e-9) {
+        change = ceil(change);
+    }
+    hp += (int)change;
+    checkValue(exp, max_hp);
+}
+BaseItem::BaseItem(ItemType type)
+    :type(type)
+{}
+MagicBook::MagicBook()
+    :BaseItem(ItemType::MAGIC_BOOK)
+{}
+bool MagicBook::canUse(Character * obj, Robot * robot) 
+{
+    int exp = obj->getEXP();
+    if (exp <= 350) return true;
+    else return false;
+}
+void MagicBook::use(Character * &obj, Robot * robot) 
+{
+    obj->changeEXP(obj->getEXP()*0.25);
+}
+
+EnergyDrink::EnergyDrink()
+    :BaseItem(ItemType::ENERGY_DRINK)
+{}
+bool EnergyDrink::canUse(Character * obj, Robot * robot)
+{
+    int hp = obj->getHP();
+    if (hp <= 100) return true;
+    else return false;
+}
+void EnergyDrink::use(Character * &obj, Robot * robot)
+{
+    obj->changeHP(obj->getHP()*0.20);
+}
+
+FirstAid::FirstAid()
+    :BaseItem(ItemType::FIRST_AID)
+{}
+bool FirstAid::canUse(Character * obj, Robot * robot)
+{
+    int hp = obj->getHP();
+    int exp = obj->getEXP();
+    if (hp <= 100 || exp <= 350) return true;
+    else return false;
+}
+void FirstAid::use(Character * &obj, Robot * robot)
+{
+    obj->changeHP(obj->getHP()*0.50);
+}
+
+ExcemptionCard::ExcemptionCard()
+    :BaseItem(ItemType::EXCEMPTION_CARD)
+{}
+bool ExcemptionCard::canUse(Character * obj, Robot * robot)
+{
+    if(obj->getName() != "Sherlock") return false;
+    int hp = obj->getHP();
+    if (hp % 2 == 1) return true;
+    else return false;
+}
+void ExcemptionCard::use(Character * &obj, Robot * robot)
+{
+    ;
+}
+RobotType Robot::getType()
+{
+    return robot_type;
+}
+PassingCard::PassingCard()
+    :BaseItem(ItemType::PASSING_CARD)
+{}
+bool PassingCard::canUse(Character * obj, Robot * robot)
+{
+    if(obj->getName() != "Watson") return false;
+    int hp = obj->getHP();
+    if (hp % 2 == 0) return true;
+    else return false;
+}
+void PassingCard::use(Character * &obj, Robot * robot)
+{
+    if (challenge == "all") return;
+    if ( (challenge == " RobotC" && robot->getType() != C)
+       ||(challenge == " RobotS" && robot->getType() != S)
+       ||(challenge == " RobotW" && robot->getType() != W)
+       ||(challenge == " RobotSW" && robot->getType() != SW))
+    {
+        obj->changeHP(-50);
+    }
+}
+void PassingCard::setType(int t)
+{
+    switch (t)
+    {
+    case 0:
+        challenge = "RobotS";
+        break;
+    case 1:
+        challenge = "RobotC";
+        break;
+    case 2:
+        challenge = "RobotSW";
+        break;
+    case 3:
+        challenge = "all";
+        break;
+    default:
+        break;
+    }
+}
 ////////////////////////////////////////////////
 // HCMUT 23:37 12/03/2024
 // DONE

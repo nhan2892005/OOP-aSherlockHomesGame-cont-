@@ -214,7 +214,10 @@ class Character : public MovingObject
                     Map * map,
                     bool pass,
                     const string & name="");
-        
+        virtual int getEXP() = 0;
+        virtual int getHP() = 0;
+        virtual void changeEXP(double change) = 0;
+        virtual void changeHP(double change) = 0;
     private:
         bool pass;
 };
@@ -236,6 +239,8 @@ class Sherlock : public Character
         char getNextMoving();
         int getEXP();
         int getHP();
+        void changeEXP(double change);
+        void changeHP(double change);
         //////////////////////////
     private:
         string moving_rule;
@@ -264,6 +269,8 @@ class Watson : public Character
         char getNextMoving();
         int getEXP();
         int getHP();
+        void changeEXP(double change);
+        void changeHP(double change);
         /////////////////////
     private:
         string moving_rule;
@@ -274,7 +281,7 @@ class Watson : public Character
                                 Class Watson
                                 Done
                             */
-class Criminal : public Character
+class Criminal : public MovingObject
 {
     public:
         friend class TestStudyInPink;
@@ -398,6 +405,7 @@ class Robot : public MovingObject
         virtual Position getNextPosition() = 0;
         void move();
         virtual string str() const;
+        RobotType getType();
     protected:
         RobotType robot_type;
         BaseItem * item;
@@ -475,6 +483,70 @@ class RobotSW : public Robot
         Criminal * criminal;
         Sherlock * sherlock;
         Watson * watson;
+};
+class BaseItem
+{
+    public:
+        BaseItem(ItemType type);
+        //~BaseItem();
+        virtual bool canUse(Character * obj,
+                        Robot * robot) const;
+        virtual void use(Character * obj,
+                    Robot * robot) const;
+    protected:
+        ItemType type;
+};
+
+class MagicBook : public BaseItem
+{
+    public:
+        MagicBook();
+        bool canUse(Character * obj,
+                    Robot * robot) ;
+        void use(Character * &obj,
+                    Robot * robot) ;
+};
+class EnergyDrink : public BaseItem
+{
+    public:
+        EnergyDrink();
+        bool canUse(Character * obj,
+                    Robot * robot) ;
+        void use(Character * &obj,
+                    Robot * robot) ;
+};
+
+class FirstAid : public BaseItem
+{
+    public:
+        FirstAid();
+        bool canUse(Character * obj,
+                    Robot * robot) ;
+        void use(Character * &obj,
+                    Robot * robot) ;
+};
+
+class ExcemptionCard : public BaseItem
+{
+    public:
+        ExcemptionCard();
+        bool canUse(Character * obj,
+                    Robot * robot) ;
+        void use(Character * &obj,
+                    Robot * robot) ;
+};
+
+class PassingCard : public BaseItem
+{
+    public:
+        PassingCard();
+        bool canUse(Character * obj,
+                    Robot * robot) ;
+        void use(Character * &obj,
+                    Robot * robot) ;
+        void setType(int t);
+    private:
+        string challenge;
 };
 /*
 class ArrayMovingObject {
