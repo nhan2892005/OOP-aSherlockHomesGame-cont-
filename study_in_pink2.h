@@ -32,7 +32,7 @@
  //Check init array
  class ArrayMovingObject;
 
- //Chech config
+ //Check config
  class Configuration;
 
  //Recheck Object
@@ -171,6 +171,7 @@ class Position
         void setCol(int c);
         string str() const;
         bool isEqual(int in_r, int in_c) const;
+        bool isEqual(Position pos);
         static const Position npos;
     private:
         int r, c;
@@ -369,12 +370,10 @@ public:
     StudyPinkProgram(const string & config_file_path);
     bool isStop() const;
     void printResult() const {
-        if (sherlock->getCurrentPosition().isEqual( criminal->getCurrentPosition().getRow(),
-                                                    criminal->getCurrentPosition().getRow())) {
+        if (sherlock->getCurrentPosition().isEqual(criminal->getCurrentPosition())) {
             cout << "Sherlock caught the criminal" << endl;
         }
-        else if (watson->getCurrentPosition().isEqual(  criminal->getCurrentPosition().getRow(),
-                                                        criminal->getCurrentPosition().getRow())) {
+        else if (watson->getCurrentPosition().isEqual(criminal->getCurrentPosition())) {
             cout << "Watson caught the criminal" << endl;
         }
         else {
@@ -399,7 +398,7 @@ class Robot : public MovingObject
 {
     public:
         Robot(  int index,
-                const Position & init_pos,
+                const Position &init_pos,
                 Map * map,
                 RobotType robot_type);
         virtual Position getNextPosition() = 0;
@@ -417,7 +416,6 @@ class RobotC : public Robot
         RobotC( int index, 
                 const Position & init_pos,
                 Map * map,
-                RobotType robot_type,
                 Criminal * criminal
                 );
         Position getNextPosition();
@@ -426,6 +424,7 @@ class RobotC : public Robot
         string str();
     private:
         Criminal * criminal;
+        const string name = "C";
 };
 
 class RobotS : public Robot
@@ -434,7 +433,6 @@ class RobotS : public Robot
         RobotS( int index, 
                 const Position & init_pos,
                 Map * map,
-                RobotType robot_type,
                 Criminal * criminal,
                 Sherlock * sherlock
                 );
@@ -444,6 +442,7 @@ class RobotS : public Robot
     private:
         Criminal * criminal;
         Sherlock * sherlock;
+        const string name = "S";
 };
 
 class RobotW : public Robot
@@ -452,7 +451,6 @@ class RobotW : public Robot
         RobotW( int index, 
                 const Position & init_pos,
                 Map * map,
-                RobotType robot_type,
                 Criminal * criminal,
                 Watson * watson
                 );
@@ -462,7 +460,7 @@ class RobotW : public Robot
     private:
         Criminal * criminal;
         Watson * watson;
-
+        const string name = "W";
 };
 
 class RobotSW : public Robot
@@ -471,7 +469,6 @@ class RobotSW : public Robot
         RobotSW( int index, 
                 const Position & init_pos,
                 Map * map,
-                RobotType robot_type,
                 Criminal * criminal,
                 Sherlock * sherlock,
                 Watson * watson
@@ -483,6 +480,7 @@ class RobotSW : public Robot
         Criminal * criminal;
         Sherlock * sherlock;
         Watson * watson;
+        const string name = "SW";
 };
 class BaseItem
 {
@@ -490,9 +488,10 @@ class BaseItem
         BaseItem(ItemType type);
         //~BaseItem();
         virtual bool canUse(Character * obj,
-                        Robot * robot) const;
+                        Robot * robot) = 0;
         virtual void use(Character * obj,
-                    Robot * robot) const;
+                    Robot * robot);
+        ItemType getType();
     protected:
         ItemType type;
 };
@@ -502,9 +501,9 @@ class MagicBook : public BaseItem
     public:
         MagicBook();
         bool canUse(Character * obj,
-                    Robot * robot) ;
+                    Robot * robot);
         void use(Character * &obj,
-                    Robot * robot) ;
+                    Robot * robot);
 };
 class EnergyDrink : public BaseItem
 {
@@ -548,94 +547,19 @@ class PassingCard : public BaseItem
     private:
         string challenge;
 };
-/*
-class ArrayMovingObject {
-private:
-    // TODO
-
-public:
-    ArrayMovingObject(int capacity);
-
-    ~ArrayMovingObject() ;
-    bool isFull() const;
-    bool add(MovingObject * mv_obj);
-    MovingObject * get(int index) const;
-    int size() const; // return current number of elements in the array
-    string str() const;
+class BaseBag
+{
+    public:
+        BaseBag();
+        virtual bool insert(BaseItem* item); // return true if insert successfully
+        virtual BaseItem* get(); // return the item as described above , if not found , return NULL
+        virtual BaseItem* get(ItemType itemType); // return the item as described above , if not found , return NULL
+        virtual string str() const;
+        BaseItem * next;
+    protected:
+        Character * obj;
+    private:
+        
 };
 
-class Configuration {
-    friend class StudyPinkProgram;
-
-private:
-    // TODO
-
-public:
-    Configuration(const string & filepath);
-    ~Configuration();
-    string str() const;
-};
-
-// Robot, BaseItem, BaseBag,...
-
-class StudyPinkProgram {
-private:
-    // Sample attributes
-    Configuration * config;
-    
-    Sherlock * sherlock;
-    Watson * watson;
-    Criminal * criminal;
-    
-    Map * map;
-    ArrayMovingObject * arr_mv_objs;
-
-
-public:
-    StudyPinkProgram(const string & config_file_path);
-
-    bool isStop() const;
-
-    void printResult() const {
-        if (sherlock->getCurrentPosition().isEqual(criminal->getCurrentPosition())) {
-            cout << "Sherlock caught the criminal" << endl;
-        }
-        else if (watson->getCurrentPosition().isEqual(criminal->getCurrentPosition())) {
-            cout << "Watson caught the criminal" << endl;
-        }
-        else {
-            cout << "The criminal escaped" << endl;
-        }
-    }
-
-    void printStep(int si) const {
-        cout << "Step: " << setw(4) << setfill('0') << si
-            << "--"
-            << sherlock->str() << "--|--" << watson->str() << "--|--" << criminal->str() << endl;
-    }
-
-    void run(bool verbose) {
-        // Note: This is a sample code. You can change the implementation as you like.
-        // TODO
-        for (int istep = 0; istep < config->num_steps; ++istep) {
-            for (int i = 0; i < arr_mv_objs->size(); ++i) {
-                arr_mv_objs->get(i)->move();
-                if (isStop()) {
-                    printStep(istep);
-                    break;
-                }
-                if (verbose) {
-                    printStep(istep);
-                }
-            }
-        }
-        printResult();
-    }
-
-    ~StudyPinkProgram();
-};
-*/
-////////////////////////////////////////////////
-/// END OF STUDENT'S ANSWER
-////////////////////////////////////////////////
 #endif /* _H_STUDY_IN_PINK_2_H_ */

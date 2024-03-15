@@ -206,6 +206,9 @@ string Position::str() const
 bool Position::isEqual(int in_r, int in_c) const{
     return (r == in_r && c == in_c);
 }
+bool Position::isEqual(Position pos){
+    return (r == pos.getRow() && c == pos.getCol());
+}
                             /*
                                 HCMUT 13:58 10/03/2024
                                 Class Position
@@ -614,10 +617,10 @@ void Configuration::init_array(Position * &arr, int &numArr, string line){
 string Configuration::str() const
 {
     string result = "Configuration[\n";
-    result += "MAP_NUM_ROWS=" + to_string(map_num_rows) + ";\n";
-    result += "MAP_NUM_COLS=" + to_string(map_num_cols) + ";\n";
-    result += "MAX_NUM_MOVING_OBJECTS=" + to_string(max_num_moving_objects) + ";\n";
-    result += "NUM_WALLS=" + to_string(num_walls) + ";\n";
+    result += "MAP_NUM_ROWS=" + to_string(map_num_rows) + "\n";
+    result += "MAP_NUM_COLS=" + to_string(map_num_cols) + "\n";
+    result += "MAX_NUM_MOVING_OBJECTS=" + to_string(max_num_moving_objects) + "\n";
+    result += "NUM_WALLS=" + to_string(num_walls) + "\n";
     result += "ARRAY_WALLS=[";
     for (int i = 0; i < num_walls; i++){
         result += "(" + to_string(arr_walls[i].getRow()) + "," + to_string(arr_walls[i].getCol()) + ")";
@@ -625,8 +628,8 @@ string Configuration::str() const
             result += ";";
         }
     }
-    result += "];\n";
-    result += "NUM_FAKE_WALLS=" + to_string(num_fake_walls) + ";\n";
+    result += "]\n";
+    result += "NUM_FAKE_WALLS=" + to_string(num_fake_walls) + "\n";
     result += "ARRAY_FAKE_WALLS=[";
     for (int i = 0; i < num_fake_walls; i++){
         result += "(" + to_string(arr_fake_walls[i].getRow()) + "," + to_string(arr_fake_walls[i].getCol()) + ")";
@@ -634,17 +637,17 @@ string Configuration::str() const
             result += ";";
         }
     }
-    result += "];\n";
-    result += "SHERLOCK_MOVING_RULE=" + sherlock_moving_rule + ";\n";
-    result += "SHERLOCK_INIT_POS=(" + to_string(sherlock_init_pos.getRow()) + "," + to_string(sherlock_init_pos.getCol()) + ");\n";
-    result += "SHERLOCK_INIT_HP=" + to_string(sherlock_init_hp) + ";\n";
-    result += "SHERLOCK_INIT_EXP=" + to_string(sherlock_init_exp) + ";\n";
-    result += "WATSON_MOVING_RULE=" + watson_moving_rule + ";\n";
-    result += "WATSON_INIT_POS=(" + to_string(watson_init_pos.getRow()) + "," + to_string(watson_init_pos.getCol()) + ");\n";
-    result += "WATSON_INIT_HP=" + to_string(watson_init_hp) + ";\n";
-    result += "WATSON_INIT_EXP=" + to_string(watson_init_exp) + ";\n";
-    result += "CRIMINAL_INIT_POS=(" + to_string(criminal_init_pos.getRow()) + "," + to_string(criminal_init_pos.getCol()) + ");\n";
-    result += "NUM_STEPS=" + to_string(num_steps) + ";\n";
+    result += "]\n";
+    result += "SHERLOCK_MOVING_RULE=" + sherlock_moving_rule + "\n";
+    result += "SHERLOCK_INIT_POS=(" + to_string(sherlock_init_pos.getRow()) + "," + to_string(sherlock_init_pos.getCol()) + ")\n";
+    result += "SHERLOCK_INIT_HP=" + to_string(sherlock_init_hp) + "\n";
+    result += "SHERLOCK_INIT_EXP=" + to_string(sherlock_init_exp) + "\n";
+    result += "WATSON_MOVING_RULE=" + watson_moving_rule + "\n";
+    result += "WATSON_INIT_POS=(" + to_string(watson_init_pos.getRow()) + "," + to_string(watson_init_pos.getCol()) + ")\n";
+    result += "WATSON_INIT_HP=" + to_string(watson_init_hp) + "\n";
+    result += "WATSON_INIT_EXP=" + to_string(watson_init_exp) + "\n";
+    result += "CRIMINAL_INIT_POS=(" + to_string(criminal_init_pos.getRow()) + "," + to_string(criminal_init_pos.getCol()) + ")\n";
+    result += "NUM_STEPS=" + to_string(num_steps) + "\n";
     result += "]";
 
     return result;
@@ -757,27 +760,30 @@ string RobotSW::str()
 {
     string s =  "Robot[pos=" + pos.str() + 
                 ";type=" + 
-                to_string(robot_type) + 
+                name + 
                 ";dist=" + 
-                to_string(getDistance());
+                to_string(getDistance())
+                +"]";
     return s;
 }
 string RobotS::str()
 {
     string s =  "Robot[pos=" + pos.str() + 
                 ";type=" + 
-                to_string(robot_type) + 
+                name + 
                 ";dist=" + 
-                to_string(getDistance());
+                to_string(getDistance())
+                +"]";
     return s;
 }
 string RobotW::str()
 {
     string s =  "Robot[pos=" + pos.str() + 
                 ";type=" + 
-                to_string(robot_type) + 
+                name + 
                 ";dist=" + 
-                to_string(getDistance());
+                to_string(getDistance())
+                +"]";
     return s;
 }
 
@@ -941,27 +947,14 @@ int RobotC::getDistance(Watson * watson)
 }
 
 Robot::Robot(  int index,
-                const Position & init_pos,
+                const Position &init_pos,
                 Map * map,
                 RobotType robot_type)
-    :MovingObject(index, pos, map), robot_type(robot_type)
+    :MovingObject(index, init_pos, map), robot_type(robot_type)
 {
-    Position pos_create_item = this->pos;
+    Position pos_create_item = pos;
     int p = pos_create_item.getRow() * pos_create_item.getCol();
     int s = sumOfNum(p);
-    /*
-    •Nếu s nằm trong đoạn [0, 1] thì sẽ tạo ra MagicBook
-•Nếu s nằm trong đoạn [2, 3] thì sẽ tạo ra EnergyDrink
-•Nếu s nằm trong đoạn [4, 5] thì sẽ tạo ra FirstAid
-•Nếu s nằm trong đoạn [6,7] thì sẽ tạo ra ExcemptionCard
-•Nếu s nằm trong đoạn [8, 9] thì sẽ tạo ra PassingCard. Đặt t = (i ∗11 + j)%4. Thuộc
-tính challenge của PassingCard được khởi tạo như sau:
-– t = 0: challenge = "RobotS"
-– t = 1: challenge = "RobotC"
-– t = 2: challenge = "RobotSW"
-– t = 3: challenge = "all"
-BaseItem * item;
-    */
     if (s >= 0 && s <= 1){
         item = new MagicBook();
     }
@@ -975,8 +968,7 @@ BaseItem * item;
         item = new ExcemptionCard();
     }
     else if (s >= 8 && s <= 9){
-        item = new PassingCard();
-        PassingCard * temp = (PassingCard*)item;
+        PassingCard * temp = new PassingCard();
         temp->setType((pos_create_item.getRow() * 11 + pos_create_item.getCol()) % 4);
         item = temp;
         delete temp;
@@ -985,34 +977,30 @@ BaseItem * item;
 RobotC::RobotC(   int index,
                 const Position & init_pos,
                 Map * map,
-                RobotType robot_type,
                 Criminal * criminal)
-    :Robot(index, pos, map, robot_type), criminal(criminal)
+    :Robot(index, init_pos, map, C), criminal(criminal)
 {}
 RobotS::RobotS(   int index,
                 const Position & init_pos,
                 Map * map,
-                RobotType robot_type,
                 Criminal * criminal,
                 Sherlock *sherlock)
-    :Robot(index, pos, map, robot_type), criminal(criminal), sherlock(sherlock)
+    :Robot(index, init_pos, map, S), criminal(criminal), sherlock(sherlock)
 {}
 RobotW::RobotW(   int index,
                 const Position & init_pos,
                 Map * map,
-                RobotType robot_type,
                 Criminal * criminal,
                 Watson *watson)
-    :Robot(index, pos, map, robot_type), criminal(criminal), watson(watson)
+    :Robot(index, init_pos, map, W), criminal(criminal), watson(watson)
 {}
 RobotSW::RobotSW(   int index,
                 const Position & init_pos,
                 Map * map,
-                RobotType robot_type,
                 Criminal * criminal,
                 Sherlock * sherlock,
                 Watson * watson)
-    :   Robot(index, pos, map, robot_type), 
+    :   Robot(index, init_pos, map, SW), 
         criminal(criminal), 
         sherlock(sherlock), 
         watson(watson)
@@ -1115,7 +1103,8 @@ bool ExcemptionCard::canUse(Character * obj, Robot * robot)
 }
 void ExcemptionCard::use(Character * &obj, Robot * robot)
 {
-    ;
+    if (1 == 1) cout <<"ok";
+    else return;
 }
 RobotType Robot::getType()
 {
@@ -1162,6 +1151,15 @@ void PassingCard::setType(int t)
         break;
     }
 }
+void BaseItem::use(Character * obj, Robot * robot){
+    return;
+}
+ItemType BaseItem::getType()
+{
+    return type;
+}
+
+
 ////////////////////////////////////////////////
 // HCMUT 23:37 12/03/2024
 // DONE

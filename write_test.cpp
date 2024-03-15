@@ -152,6 +152,7 @@ void checkConfig(int i){
     output_file.close();
 }
 int main(){
+    /*
     for (int i = 1; i <= 90; i++){
         write_test(i);
     }
@@ -161,5 +162,9 @@ int main(){
     for (int i = 240; i <= 270; i++){
         checkConfig(i);
     }
+    */
+   write_test(3);
+   checkMovingObject(1);
+   checkConfig(2);
     return 0;
 }
