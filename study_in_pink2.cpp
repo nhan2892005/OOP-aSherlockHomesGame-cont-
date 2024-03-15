@@ -1158,8 +1158,6 @@ ItemType BaseItem::getType()
 {
     return type;
 }
-
-
 ////////////////////////////////////////////////
 // HCMUT 23:37 12/03/2024
 // DONE

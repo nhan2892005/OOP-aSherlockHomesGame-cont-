@@ -118,11 +118,34 @@ public:
         delete robotW;
         delete robotSW;
     }
+
+    /*static void satc_04() {
+        BaseItem * Item1 = new MagicBook();
+        BaseItem * Item2 = new EnergyDrink();
+        BaseItem * Item3 = new ExcemptionCard();
+        BaseItem * Item4 = new PassingCard();
+        BaseItem * Item5 = new FirstAid();
+
+        SherlockBag * SBag = new SherlockBag();
+        SBag->insert(Item1);
+        SBag->insert(Item2);
+        SBag->insert(Item3);
+        SBag->insert(Item4);
+        SBag->insert(Item5);
+        
+        WatsonBag * WBag = new WatsonBag();
+        WBag->insert(Item1);
+        WBag->insert(Item2);
+        WBag->insert(Item3);
+        WBag->insert(Item4);
+        WBag->insert(Item5);
+    }*/
 };
 
 int main(int argc, const char * argv[]) {
     //TestStudyInPink::satc_01();
     //TestStudyInPink::satc_02();
+    //TestStudyInPink::satc_03();
     TestStudyInPink::satc_03();
     return 0;
 }

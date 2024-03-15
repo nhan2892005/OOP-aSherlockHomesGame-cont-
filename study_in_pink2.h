@@ -547,19 +547,4 @@ class PassingCard : public BaseItem
     private:
         string challenge;
 };
-class BaseBag
-{
-    public:
-        BaseBag();
-        virtual bool insert(BaseItem* item); // return true if insert successfully
-        virtual BaseItem* get(); // return the item as described above , if not found , return NULL
-        virtual BaseItem* get(ItemType itemType); // return the item as described above , if not found , return NULL
-        virtual string str() const;
-        BaseItem * next;
-    protected:
-        Character * obj;
-    private:
-        
-};
-
 #endif /* _H_STUDY_IN_PINK_2_H_ */
