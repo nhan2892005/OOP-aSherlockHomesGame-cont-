@@ -119,33 +119,70 @@ public:
         delete robotSW;
     }
 
-    /*static void satc_04() {
+    static void satc_04() {
         BaseItem * Item1 = new MagicBook();
         BaseItem * Item2 = new EnergyDrink();
         BaseItem * Item3 = new ExcemptionCard();
         BaseItem * Item4 = new PassingCard();
         BaseItem * Item5 = new FirstAid();
-
-        SherlockBag * SBag = new SherlockBag();
+        BaseBag * Bag = new BaseBag();
+        Bag->insert(Item1);
+        Bag->insert(Item2);
+        Bag->insert(Item3);
+        Bag->insert(Item4);
+        Bag->insert(Item5);
+        Bag->get(MAGIC_BOOK);
+        Bag->get(ENERGY_DRINK);
+        cout << Bag->str() << endl;
+    
+        int num_walls = 3;
+        Position arr_walls[] = {Position(1, 2), Position(2, 3), Position(3, 4)};
+        int num_fake_walls = 1;
+        Position arr_fake_walls[] = {Position(2, 0)};
+        Map * map = new Map(10, 10, num_walls, arr_walls, num_fake_walls, arr_fake_walls);
+        Sherlock * sherlock = new Sherlock(1, "RUU", Position(1, 3), map, 250, 450);
+        SherlockBag * SBag = new SherlockBag(sherlock);
         SBag->insert(Item1);
         SBag->insert(Item2);
         SBag->insert(Item3);
         SBag->insert(Item4);
         SBag->insert(Item5);
-        
-        WatsonBag * WBag = new WatsonBag();
-        WBag->insert(Item1);
-        WBag->insert(Item2);
-        WBag->insert(Item3);
-        WBag->insert(Item4);
+        SBag->get(PASSING_CARD);
+        SBag->get(FIRST_AID);
+        cout << SBag->str() << endl;
+
+        Watson * watson = new Watson(2, "LU", Position(2, 1), map, 300, 350);
+        WatsonBag * WBag = new WatsonBag(watson);
         WBag->insert(Item5);
-    }*/
+        WBag->insert(Item4);
+        WBag->insert(Item3);
+        WBag->insert(Item2);
+        WBag->insert(Item1);
+        WBag->get(EXCEMPTION_CARD);
+        WBag->get(ENERGY_DRINK);
+        WBag->get(MAGIC_BOOK);
+        WBag->get(PASSING_CARD);
+        WBag->get(EXCEMPTION_CARD);
+        cout << WBag->str() << endl;
+
+        delete Item1;
+        delete Item2;
+        delete Item3;
+        delete Item4;
+        delete Item5;
+        
+        delete map;
+        delete sherlock;
+        delete SBag;
+        delete watson;
+        delete WBag;
+    }  
 };
 
 int main(int argc, const char * argv[]) {
-    //TestStudyInPink::satc_01();
-    //TestStudyInPink::satc_02();
-    //TestStudyInPink::satc_03();
+    TestStudyInPink::satc_01();
+    TestStudyInPink::satc_02();
     TestStudyInPink::satc_03();
+    TestStudyInPink::satc_04();
     return 0;
 }

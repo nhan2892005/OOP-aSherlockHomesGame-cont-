@@ -215,6 +215,7 @@ class Character : public MovingObject
                     Map * map,
                     bool pass,
                     const string & name="");
+        virtual ~Character();
         virtual int getEXP() = 0;
         virtual int getHP() = 0;
         virtual void changeEXP(double change) = 0;
@@ -486,12 +487,35 @@ class BaseItem
 {
     public:
         BaseItem(ItemType type);
-        //~BaseItem();
+        ~BaseItem();
         virtual bool canUse(Character * obj,
                         Robot * robot) = 0;
         virtual void use(Character * obj,
                     Robot * robot);
         ItemType getType();
+        static string getName(ItemType type){
+            switch (type)
+            {
+            case MAGIC_BOOK:
+                return "MAGIC_BOOK";
+                break;
+            case ENERGY_DRINK:
+                return "ENERGY_DRINK";
+                break;
+            case FIRST_AID:
+                return "FIRST_AID";
+                break;
+            case EXCEMPTION_CARD:
+                return "EXCEMPTION_CARD";
+                break;
+            case PASSING_CARD:
+                return "PASSING_CARD";
+                break;
+            default:
+                return "Unknown";
+                break;
+            }
+        }
     protected:
         ItemType type;
 };
@@ -546,5 +570,40 @@ class PassingCard : public BaseItem
         void setType(int t);
     private:
         string challenge;
+};
+
+class BaseBag
+{
+    public:
+        BaseBag();
+        ~BaseBag();
+        virtual bool insert (BaseItem* item); // return true if insert successfully
+        virtual BaseItem* get(); // return the item as described above , if not found , return NULL
+        virtual BaseItem* get(ItemType itemType); // return the item as described above , if not found , return NULL
+        virtual string str() const;
+    protected:
+        BaseItem * item;
+        BaseBag * next;
+        BaseBag * head;
+        BaseBag * tail;
+        int capacity = 15;
+        Character * obj;
+        int count = 0; //number of current item in bag
+};
+
+class SherlockBag : public BaseBag
+{
+    public:
+        SherlockBag(Sherlock * sherlock);
+        //bool insert (BaseItem* item);
+        //BaseItem* get();
+        //BaseItem* get(ItemType itemType);
+        //string str() const;
+};
+
+class WatsonBag : public BaseBag
+{
+    public:
+        WatsonBag(Watson * watson);
 };
 #endif /* _H_STUDY_IN_PINK_2_H_ */

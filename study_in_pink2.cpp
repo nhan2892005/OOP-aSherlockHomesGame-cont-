@@ -225,7 +225,7 @@ void MovingObject::getStep(int istep){
 }
 MovingObject::~MovingObject() 
 {
-    ;
+    return;
 }
 
 string MovingObject::getName() const
@@ -241,6 +241,10 @@ Position MovingObject::getCurrentPosition() const
                                 Class MovingObject
                                 Done
                             */
+Character::~Character()
+{
+    return;
+}
 Sherlock::Sherlock( int index, 
                     const string &moving_rule, 
                     const Position &init_pos, 
@@ -1048,6 +1052,10 @@ void Watson::changeHP(double change)
 BaseItem::BaseItem(ItemType type)
     :type(type)
 {}
+BaseItem::~BaseItem()
+{
+    return;
+}
 MagicBook::MagicBook()
     :BaseItem(ItemType::MAGIC_BOOK)
 {}
@@ -1157,6 +1165,105 @@ void BaseItem::use(Character * obj, Robot * robot){
 ItemType BaseItem::getType()
 {
     return type;
+}
+BaseBag::BaseBag()
+    : item(nullptr), next(nullptr), head(nullptr), tail(nullptr)
+{}
+BaseBag::~BaseBag()
+{
+    if (head != nullptr)
+    {
+        BaseBag * temp = head;
+        while (temp != nullptr)
+        {
+            head = head->next;
+            delete temp;
+            temp = head;
+        }
+    }
+}
+
+bool BaseBag::insert(BaseItem * item)
+{
+    //insert item to the head of list
+    if (count == capacity) return false;
+    if (head == nullptr)
+    {
+        head = new BaseBag;
+        head->item = item;
+        head->obj = obj;
+        tail = head;
+        count = 1;
+        return true;
+    }
+    else
+    {
+        BaseBag * temp = new BaseBag;
+        temp->item = item;
+        temp->obj = obj;
+        temp->next = head;
+        head = temp;
+        ++count;
+        return true;
+    }
+    return false;
+}
+
+BaseItem* BaseBag::get(ItemType itemType)
+{
+    if (head == nullptr) return nullptr;
+    BaseBag * temp = head;
+    while (temp != nullptr)
+    {
+        if (temp->item->getType() == itemType)
+        {
+            //delete item from list
+            //swap it with first item and delete first item
+            BaseItem * temp_item = temp->item;
+            temp->item = head->item;
+            head->item = nullptr;
+            head = head->next;
+            count--;
+            return temp_item;
+        }
+        temp = temp->next;
+    }
+    delete temp;
+    return nullptr;
+}
+
+BaseItem* BaseBag::get()
+{
+    //find the suit element, swap it with the first element and delete the first element
+    if (head == nullptr) return nullptr;
+    BaseItem * temp = head->item;
+    return temp;
+}
+
+string BaseBag::str() const
+{
+    if (head == nullptr) return "Bag[count=0]";
+    string temp = "Bag[count=" + to_string(count) + ";";
+    BaseBag * temp_bag = head;
+    while (temp_bag->next != nullptr)
+    {
+        temp += BaseItem::getName(temp_bag->item->getType()) + ",";
+        temp_bag = temp_bag->next;
+    }
+    temp += BaseItem::getName(temp_bag->item->getType()) + "]";
+    return temp;
+}
+SherlockBag :: SherlockBag(Sherlock * sherlock)
+    :BaseBag()
+{
+    this->obj = sherlock;
+    this->capacity = 13;
+}
+WatsonBag :: WatsonBag(Watson * watson)
+    :BaseBag()
+{
+    this->obj = watson;
+    this->capacity = 15;
 }
 ////////////////////////////////////////////////
 // HCMUT 23:37 12/03/2024
