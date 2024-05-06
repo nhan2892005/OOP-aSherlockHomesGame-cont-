@@ -1,0 +1,4 @@
+----- Testcase Init Sherlock -----
+Sherlock[index=1;pos=(172,127);moving_rule=LLDLUDLUUDLLDULRRUDDULURRRDRRLD]
+* Sherlock make a move
+Sherlock[index=1;pos=(172,126);moving_rule=LLDLUDLUUDLLDULRRUDDULURRRDRRLD]

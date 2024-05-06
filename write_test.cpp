@@ -10,7 +10,7 @@
 using namespace std;
 
 char moveRule[] = {'U', 'D', 'L', 'R'}; 
-void write_test(int i){
+void map_test(int i){
     ofstream output_file("Testcase/input/input"+to_string(i));
     srand(time(0));
     int map_size_row = rand() % 500 + 1;
@@ -30,18 +30,6 @@ void write_test(int i){
         int v = rand() % map_size_col;
         output_file << u << " " << v << endl;
     }
-    string movingrule = "";
-    int size_movingrule = rand() % 101;
-    for (int i = 0; i < size_movingrule; i++){
-        movingrule += moveRule[rand() % 4];
-    }
-    int x = rand() % map_size_row;
-    int y = rand() % map_size_col;
-    output_file << movingrule << endl;
-    output_file << x << " " << y << endl;
-    int hp = rand() % 1010 - 10;
-    int exp = rand() % 1010 - 10;
-    output_file << hp << " " << exp << endl;
     output_file.close();
 }
 void checkMovingObject(int i){
@@ -78,6 +66,45 @@ void checkMovingObject(int i){
         int exp = rand() % 1010 - 10;
         output_file << hp << " " << exp << endl;
     }
+    output_file.close();
+}
+void checkCriminal(int i){
+    ofstream output_file("Testcase/input/input"+to_string(i));
+    srand(time(0));
+    int map_size_row = rand() % 500 + 1;
+    int map_size_col = rand() % 500 + 1;
+    output_file << map_size_row << " " << map_size_col << endl;
+    int num_walls = rand() % 2001;
+    output_file << num_walls << endl;
+    for (int i = 0; i < num_walls; i++){
+        int u = rand() % map_size_row;
+        int v = rand() % map_size_col;
+        output_file << u << " " << v << endl;
+    }
+    int num_fake_walls = rand() % 2001;
+    output_file << num_fake_walls << endl;
+    for (int i = 0; i < num_fake_walls; i++){
+        int u = rand() % map_size_row;
+        int v = rand() % map_size_col;
+        output_file << u << " " << v << endl;
+    }
+    for (int i = 1; i < 3; i++){
+        string movingrule = "";
+        int size_movingrule = rand() % 101;
+        for (int i = 0; i < size_movingrule; i++){
+            movingrule += moveRule[rand() % 4];
+        }
+        int x = rand() % map_size_row;
+        int y = rand() % map_size_col;
+        output_file << movingrule << endl;
+        output_file << x << " " << y << endl;
+        int hp = rand() % 1010 - 10;
+        int exp = rand() % 1010 - 10;
+        output_file << hp << " " << exp << endl;
+    }
+    int x = rand() % map_size_row;
+    int y = rand() % map_size_col;
+    output_file << x << " " << y << endl;
     output_file.close();
 }
 void checkConfig(int i){
@@ -141,6 +168,8 @@ void checkConfig(int i){
     config["CRIMINAL_INIT_POS"] = "(" + to_string(x2) + "," + to_string(y2) + ")";
     int num_steps = rand() % 1001;
     config["NUM_STEPS"] = to_string(num_steps);
+    int max_objects = rand() % 51;
+    config["MAX_NUM_MOVING_OBJECTS"] = to_string(max_objects);
     vector<string> keys;
     for (auto it = config.begin(); it != config.end(); it++){
         keys.push_back(it->first);
@@ -152,19 +181,9 @@ void checkConfig(int i){
     output_file.close();
 }
 int main(){
-    /*
-    for (int i = 1; i <= 90; i++){
-        write_test(i);
-    }
-    for (int i = 91; i <= 240; i++){
-        checkMovingObject(i);
-    }
-    for (int i = 240; i <= 270; i++){
+    
+    for (int i = 91; i <= 100; i++){
         checkConfig(i);
     }
-    */
-   write_test(3);
-   checkMovingObject(1);
-   checkConfig(2);
     return 0;
 }

@@ -1,0 +1,4 @@
+----- Testcase Init Watson -----
+Watson[index=2;pos=(47,141);moving_rule=LRDUULLRDUUURDRDULL]
+* Watson make a move
+Watson[index=2;pos=(47,140);moving_rule=LRDUULLRDUUURDRDULL]

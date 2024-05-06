@@ -1,0 +1,5 @@
+----- Testcase Init Map -----
+Size of Map: 287 491
+Number of Walls: 1193
+Number of FakeWalls: 67
+Read Map Successfully

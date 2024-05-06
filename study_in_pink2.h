@@ -132,11 +132,7 @@ class FakeWall : public MapElement
     private:
         int req_exp;
 };
-                            /*
-                                HCMUT 13:58 10/03/2024
-                                Class MapElement
-                                Done
-                            */
+///////////////////////////////////////////////////
 class Map
 {
     public:
@@ -149,6 +145,7 @@ class Map
             Position * array_fake_walls);
         ~Map();
         bool isValid(const Position & pos , MovingObject * mv_obj) const;
+        MapElement * getEleMap(int r, int c);
     private:
         int num_rows, num_cols;
         MapElement*** map;
@@ -176,11 +173,7 @@ class Position
     private:
         int r, c;
 };
-                            /*
-                                HCMUT 14:36 10/03/2024
-                                Class Position
-                                Done
-                            */
+
 class MovingObject
 {
     public:
@@ -197,14 +190,13 @@ class MovingObject
         virtual string str() const = 0;
         // set up get Name
         string getName() const;
-        // set up Step for Object
-        void getStep(int istep);
+        int getStep() const;
     protected:
         int index;
         Position pos;
         Map * map;
         string name;      
-        int step = 1;
+        int step = 0;
 };
 
 class Character : public MovingObject
@@ -215,11 +207,14 @@ class Character : public MovingObject
                     Map * map,
                     bool pass,
                     const string & name="");
+        void catchCriminal(Position criminal_pos);
         virtual ~Character();
         virtual int getEXP() = 0;
         virtual int getHP() = 0;
         virtual void changeEXP(double change) = 0;
         virtual void changeHP(double change) = 0;
+        virtual void meetRobot(MovingObject* robot) = 0;
+        Position Criminal_pos;
     private:
         bool pass;
 };
@@ -237,13 +232,13 @@ class Sherlock : public Character
         Position getNextPosition();
         void move();
         string str() const;
+        void meetRobot(MovingObject* robot);
         //////////////////////////
-        char getNextMoving();
         int getEXP();
         int getHP();
         void changeEXP(double change);
         void changeHP(double change);
-        //////////////////////////
+        SherlockBag * sherlock_bag;        //////////////////////////
     private:
         string moving_rule;
         int hp, exp;
@@ -267,12 +262,13 @@ class Watson : public Character
         void move();
         string str() const;
         ~Watson();
+        void meetRobot(MovingObject * robot);
         //////////////////////
-        char getNextMoving();
         int getEXP();
         int getHP();
         void changeEXP(double change);
         void changeHP(double change);
+        WatsonBag * watson_bag;
         /////////////////////
     private:
         string moving_rule;
@@ -292,6 +288,7 @@ class Criminal : public MovingObject
         void move();
         string str() const;
         ~Criminal();
+        Position OldStep;
     private:
         Sherlock * sherlock;
         Watson * watson;
@@ -351,6 +348,7 @@ class ArrayMovingObject
         int maxSize();
         int getCount();
         MovingObject* get(int i);
+        //void del();
         ////////////////
     private:
         MovingObject** arr_mv_objs;
@@ -366,6 +364,8 @@ private:
     Criminal * criminal;
     Map * map;
     ArrayMovingObject * arr_mv_objs;
+    SherlockBag * sherlock_bag;
+    WatsonBag * watson_bag;
 
 public:
     StudyPinkProgram(const string & config_file_path);
@@ -387,7 +387,7 @@ public:
             << "--"
             << sherlock->str() << "--|--" << watson->str() << "--|--" << criminal->str() << endl;
     }
-
+    void exchangeCard();
     void run(bool verbose);
 
     ~StudyPinkProgram();
@@ -406,9 +406,9 @@ class Robot : public MovingObject
         void move();
         virtual string str() const;
         RobotType getType();
+        BaseItem * item;
     protected:
         RobotType robot_type;
-        BaseItem * item;
 };
 
 class RobotC : public Robot
@@ -490,7 +490,7 @@ class BaseItem
         ~BaseItem();
         virtual bool canUse(Character * obj,
                         Robot * robot) = 0;
-        virtual void use(Character * obj,
+        virtual void use(Character * const &obj,
                     Robot * robot);
         ItemType getType();
         static string getName(ItemType type){
@@ -526,7 +526,7 @@ class MagicBook : public BaseItem
         MagicBook();
         bool canUse(Character * obj,
                     Robot * robot);
-        void use(Character * &obj,
+        void use(Character * const &obj,
                     Robot * robot);
 };
 class EnergyDrink : public BaseItem
@@ -535,7 +535,7 @@ class EnergyDrink : public BaseItem
         EnergyDrink();
         bool canUse(Character * obj,
                     Robot * robot) ;
-        void use(Character * &obj,
+        void use(Character * const &obj,
                     Robot * robot) ;
 };
 
@@ -545,7 +545,7 @@ class FirstAid : public BaseItem
         FirstAid();
         bool canUse(Character * obj,
                     Robot * robot) ;
-        void use(Character * &obj,
+        void use(Character * const &obj,
                     Robot * robot) ;
 };
 
@@ -555,7 +555,7 @@ class ExcemptionCard : public BaseItem
         ExcemptionCard();
         bool canUse(Character * obj,
                     Robot * robot) ;
-        void use(Character * &obj,
+        void use(Character * const &obj,
                     Robot * robot) ;
 };
 
@@ -565,10 +565,9 @@ class PassingCard : public BaseItem
         PassingCard();
         bool canUse(Character * obj,
                     Robot * robot) ;
-        void use(Character * &obj,
+        void use(Character * const &obj,
                     Robot * robot) ;
         void setType(int t);
-    private:
         string challenge;
 };
 
@@ -581,6 +580,7 @@ class BaseBag
         virtual BaseItem* get(); // return the item as described above , if not found , return NULL
         virtual BaseItem* get(ItemType itemType); // return the item as described above , if not found , return NULL
         virtual string str() const;
+        bool ItemExist(ItemType itemType);
     protected:
         BaseItem * item;
         BaseBag * next;

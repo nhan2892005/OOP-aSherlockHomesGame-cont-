@@ -1,0 +1,49 @@
+----- Testcase Init Item -----
+Sherlock can use MagicBook?
+can use
+Sherlock[index=1;pos=(12,32);moving_rule=URLRDUUDDDRLLURDUDRUDDLURURUDRLDLUURDDDLLUUUUR]
+Sherlock can use EnergyDrink?
+can not use
+Sherlock[index=1;pos=(12,32);moving_rule=URLRDUUDDDRLLURDUDRUDDLURURUDRLDLUURDDDLLUUUUR]
+Sherlock can use FirstAid?
+can use
+Sherlock[index=1;pos=(12,32);moving_rule=URLRDUUDDDRLLURDUDRUDDLURURUDRLDLUURDDDLLUUUUR]
+Sherlock can use ExcemptionCard with RobotC?
+can not use
+Sherlock[index=1;pos=(12,32);moving_rule=URLRDUUDDDRLLURDUDRUDDLURURUDRLDLUURDDDLLUUUUR]
+Sherlock can use ExcemptionCard with RobotS?
+can not use
+Sherlock[index=1;pos=(12,32);moving_rule=URLRDUUDDDRLLURDUDRUDDLURURUDRLDLUURDDDLLUUUUR]
+Sherlock can use ExcemptionCard with RobotW?
+can not use
+Sherlock[index=1;pos=(12,32);moving_rule=URLRDUUDDDRLLURDUDRUDDLURURUDRLDLUURDDDLLUUUUR]
+Sherlock can use ExcemptionCard with RobotSW?
+can not use
+Sherlock[index=1;pos=(12,32);moving_rule=URLRDUUDDDRLLURDUDRUDDLURURUDRLDLUURDDDLLUUUUR]
+Sherlock can use PassingCard
+can not use
+Sherlock[index=1;pos=(12,32);moving_rule=URLRDUUDDDRLLURDUDRUDDLURURUDRLDLUURDDDLLUUUUR]
+Watson can use MagicBook?
+can not use
+Watson[index=2;pos=(24,20);moving_rule=LLLLLRDLUUULRULLDRRRLRULRRURUDRRULDLDRUDRURLULDLDUDRUDLRDLRDU]
+Watson can use EnergyDrink?
+can not use
+Watson[index=2;pos=(24,20);moving_rule=LLLLLRDLUUULRULLDRRRLRULRRURUDRRULDLDRUDRURLULDLDUDRUDLRDLRDU]
+Watson can use FirstAid?
+can not use
+Watson[index=2;pos=(24,20);moving_rule=LLLLLRDLUUULRULLDRRRLRULRRURUDRRULDLDRUDRURLULDLDUDRUDLRDLRDU]
+Watson can use PassingCard with RobotC?
+can use
+Watson[index=2;pos=(24,20);moving_rule=LLLLLRDLUUULRULLDRRRLRULRRURUDRRULDLDRUDRURLULDLDUDRUDLRDLRDU]
+Watson can use PassingCard with RobotS?
+can use
+Watson[index=2;pos=(24,20);moving_rule=LLLLLRDLUUULRULLDRRRLRULRRURUDRRULDLDRUDRURLULDLDUDRUDLRDLRDU]
+Watson can use PassingCard with RobotW?
+can use
+Watson[index=2;pos=(24,20);moving_rule=LLLLLRDLUUULRULLDRRRLRULRRURUDRRULDLDRUDRURLULDLDUDRUDLRDLRDU]
+Watson can use PassingCard with RobotSW?
+can use
+Watson[index=2;pos=(24,20);moving_rule=LLLLLRDLUUULRULLDRRRLRULRRURUDRRULDLDRUDRURLULDLDUDRUDLRDLRDU]
+Watson can use ExcemptionCard
+can not use
+Watson[index=2;pos=(24,20);moving_rule=LLLLLRDLUUULRULLDRRRLRULRRURUDRRULDLDRUDRURLULDLDUDRUDLRDLRDU]

@@ -1,0 +1,4 @@
+----- Testcase Init Criminal -----
+Criminal[index=0;pos=(372,14)]
+* Criminal make a move
+Criminal[index=0;pos=(373,14)]

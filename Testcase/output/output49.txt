@@ -1,0 +1,2 @@
+----- Testcase Init ArrayMovingObject -----
+ArrayMovingObject[count=3;capacity=3;Criminal[index=0;pos=(232,16)];Sherlock[index=1;pos=(347,48);moving_rule=LDRLURDRLLULDLUURLURURDDDLLLDRDRDUDDRLUDUURLLULLLL];Watson[index=2;pos=(254,5);moving_rule=LDLDLLLDRLLUDUULUDLLRLDDURRRDDURLLUU]]

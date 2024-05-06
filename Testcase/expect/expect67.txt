@@ -1,0 +1,22 @@
+----- Testcase Init Robot -----
+Check ROBOTC
+Current position of Criminal: Criminal[index=0;pos=(51,174)]
+* Criminal make a move
+New position of Criminal: Criminal[index=0;pos=(50,174)]
+* Criminal make a move
+New position of Criminal: Criminal[index=0;pos=(49,174)]
+Current position of robotC: Robot[pos=(50,174);type=C;dist=]
+RobotC makes a move
+New position of robotC: Robot[pos=(50,174);type=C;dist=]
+Check ROBOTS
+Current position of robotS: Robot[pos=(49,174);type=S;dist=86]
+RobotS makes a move
+New position of robotS: Robot[pos=(49,175);type=S;dist=85]
+Check ROBOTW
+Current position of robotW: Robot[pos=(49,174);type=W;dist=146]
+RobotW makes a move
+New position of robotW: Robot[pos=(49,175);type=W;dist=145]
+Check ROBOTSW
+Current position of robotSW: Robot[pos=(49,174);type=SW;dist=232]
+RobotSW makes a move
+New position of robotSW: Robot[pos=(49,176);type=SW;dist=228]
