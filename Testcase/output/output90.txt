@@ -1,4 +1,4 @@
 ----- Testcase Init Bag -----
-Bag[count=3;EXCEMPTION_CARD,PASSING_CARD,FIRST_AID]
-Bag[count=6;FIRST_AID,FIRST_AID,ENERGY_DRINK,MAGIC_BOOK,ENERGY_DRINK,MAGIC_BOOK]
-Bag[count=4;MAGIC_BOOK,FIRST_AID,MAGIC_BOOK,FIRST_AID]
+Bag[count=5;FirstAid,PassingCard,ExcemptionCard,EnergyDrink,MagicBook]
+Bag[count=10;MagicBook,EnergyDrink,ExcemptionCard,PassingCard,FirstAid,FirstAid,PassingCard,ExcemptionCard,EnergyDrink,MagicBook]
+Bag[count=9;EnergyDrink,ExcemptionCard,MagicBook,FirstAid,MagicBook,EnergyDrink,ExcemptionCard,PassingCard,FirstAid]

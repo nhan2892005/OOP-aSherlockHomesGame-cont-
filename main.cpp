@@ -617,11 +617,40 @@ public:
     }  
 
     static void TestProgram(string input_file){
+        // Lưu trữ buffer hiện tại của std::cout
+        std::streambuf* originalBuffer = std::cout.rdbuf();
+
+        // Đặt buffer của std::cout tới file
+        std::cout.rdbuf(OUTPUT.rdbuf());
+
         StudyPinkProgram * program = new StudyPinkProgram(input + input_file);
         program->run(1);
         delete program;
         //program = new StudyPinkProgram(input + input_file);
         //program->run(0);
+
+        // Khôi phục buffer ban đầu của std::cout
+        std::cout.rdbuf(originalBuffer);
+    }
+
+    static void TestProgram2(string input_file){
+        // Lưu trữ buffer hiện tại của std::cout
+        std::streambuf* originalBuffer = std::cout.rdbuf();
+
+        // Đặt buffer của std::cout tới file
+        std::cout.rdbuf(OUTPUT.rdbuf());
+
+        StudyPinkProgram * program = new StudyPinkProgram(input + input_file);
+        program->run(0);
+        delete program;
+        //program = new StudyPinkProgram(input + input_file);
+        //program->run(0);
+        // Khôi phục buffer ban đầu của std::cout
+        std::cout.rdbuf(originalBuffer);
+    }
+
+    static void LocalTest(){
+
     }
 };
 
@@ -664,9 +693,13 @@ void run(string input_file)
     {
         TestStudyInPink::checkBag(input_file);
     }
-    else if(test <= 100)
+    else if(test <= 130)
     {
         TestStudyInPink::TestProgram(input_file);
+    }
+    else if (test <= 150)
+    {
+        TestStudyInPink::TestProgram2(input_file);
     }
 }
 
@@ -675,18 +708,18 @@ int main(int argc, char *argv[])
 	cout << "Start program assignments 2" << endl;
 
 
-    int START = 1, END = 90;
-    int fullTask = 90;
+    int START = 1, END = 150;
+    int fullTask = 150;
 
     if (argc == 1)
     {
         cout << "checking test : ";
         START = 1;
-        END = 90;
+        END = 150;
         for (int i = START; i <= END; i++)
         {
             cout << i << " ";
-            OUTPUT.open(folder_expect + to_string(i) + ".txt");
+            OUTPUT.open(folder_output + to_string(i) + ".txt");
             run(to_string(i));
             OUTPUT.close();
         }
@@ -704,10 +737,14 @@ int main(int argc, char *argv[])
             run(stringTask);
             OUTPUT.close();            
         }
+        else if(stringTask == "local"){
+            cout << "checking LocalTest : ";
+            TestStudyInPink::LocalTest();
+        }
         else if(stringTask == "me")
         {
             cout << "checking test : ";
-            for (int i = 1; i <= 1000; i++)
+            for (int i = 1; i <= 90; i++)
             {
                 cout << i << " ";
                 OUTPUT.open(folder_output + to_string(i) + ".txt");

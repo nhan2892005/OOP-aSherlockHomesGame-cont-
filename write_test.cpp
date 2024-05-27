@@ -111,11 +111,11 @@ void checkConfig(int i){
     unordered_map<string, string> config;
     ofstream output_file("Testcase/input/input"+to_string(i));
     srand(time(0));
-    int map_size_row = rand() % 500 + 1;
-    int map_size_col = rand() % 500 + 1;
+    int map_size_row = rand() % 1000 + 1;
+    int map_size_col = rand() % 1000 + 1;
     config["MAP_NUM_ROWS"] = to_string(map_size_row);
     config["MAP_NUM_COLS"] = to_string(map_size_col);
-    int num_walls = rand() % 2001;
+    int num_walls = rand() % (map_size_row * map_size_col + 1);
     config["ARRAY_WALLS"] = "[";
     for (int i = 0; i < num_walls; i++){
         int u = rand() % map_size_row;
@@ -126,7 +126,7 @@ void checkConfig(int i){
         }
     }
     config["ARRAY_WALLS"] += "]";
-    int num_fake_walls = rand() % 2001;
+    int num_fake_walls = rand() % (map_size_row * map_size_col + 1);
     config["ARRAY_FAKE_WALLS"] = "[";
     for (int i = 0; i < num_fake_walls; i++){
         int u = rand() % map_size_row;
@@ -138,7 +138,7 @@ void checkConfig(int i){
     }
     config["ARRAY_FAKE_WALLS"] += "]";
     string movingrule = "";
-    int size_movingrule = rand() % 101;
+    int size_movingrule = rand() % 10;
     for (int i = 0; i < size_movingrule; i++){
         movingrule += moveRule[rand() % 4];
     }
@@ -151,7 +151,7 @@ void checkConfig(int i){
     config["SHERLOCK_INIT_HP"] = to_string(hp);
     config["SHERLOCK_INIT_EXP"] = to_string(exp);
     string movingrule1 = "";
-    int size_movingrule1 = rand() % 101;
+    int size_movingrule1 = rand() % 5;
     for (int i = 0; i < size_movingrule1; i++){
         movingrule1 += moveRule[rand() % 4];
     }
@@ -182,7 +182,7 @@ void checkConfig(int i){
 }
 int main(){
     
-    for (int i = 91; i <= 100; i++){
+    for (int i = 131; i <= 150; i++){
         checkConfig(i);
     }
     return 0;
