@@ -7,6 +7,16 @@
  * ID: 2312438
  * Date: 10.03.2024
  */
+// * // * // * // * // * // * // * // * // * // * // * // * // * // * // * // * //
+// *  NGUYEN PHUC NHAN                                                          //
+// *  Phone:     0816283456                                                     //
+// *  Email:     nhan.nguyen200phuyen@hcmut.edu.vn                              //
+// *  Website:   http://phucnhan289.great-site.net/1/index.html                 //
+// *  Github:    https://github.com/nhan2892005                                 //
+// *  Facebook:  https://www.facebook.com/phucnhancshcmut/                      //
+// *  Linkedin:  https://www.linkedin.com/in/phúc-nhân-nguyễn-778b26275/        //
+// *  LeetCode:  https://leetcode.com/u/N289/                                   //
+// * // * // * // * // * // * // * // * // * // * // * // * // * // * // * // * //
 
 #ifndef _H_STUDY_IN_PINK_2_H_
 #define _H_STUDY_IN_PINK_2_H_
@@ -584,13 +594,3 @@ public:
 };
 #endif
 // * END STUDENT'S ANSWER
-// * // * // * // * // * // * // * // * // * // * // * // * // * // * // * // * //
-// *  NGUYEN PHUC NHAN                                                          //
-// *  Phone:     0*****3456                                                     //
-// *  Email:     nhan.nguyen200phuyen@hcmut.edu.vn                              //
-// *  Website:   http://phucnhan289.great-site.net/1/index.html                 //
-// *  Github:    https://github.com/nhan2892005                                 //
-// *  Facebook:  https://www.facebook.com/phucnhancshcmut/                      //
-// *  Linkedin:  https://www.linkedin.com/in/phúc-nhân-nguyễn-778b26275/        //
-// *  LeetCode:  https://leetcode.com/u/N289/                                   //
-// * // * // * // * // * // * // * // * // * // * // * // * // * // * // * // * //

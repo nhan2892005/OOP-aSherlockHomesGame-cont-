@@ -502,9 +502,12 @@ Configuration::Configuration(const string & filepath)
 {
     ifstream file(filepath);
     string line;
-    if (!file.is_open()){
-        cout << "File not found" << endl;
-        return;
+    try{
+        if (!file.is_open()){
+            throw "File not found!";
+        }
+    }catch(const char * msg){
+        cerr << msg << endl;
     }
     while (getline(file, line)){
         if (line.find("MAP_NUM_ROWS") != string::npos){
