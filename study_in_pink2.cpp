@@ -83,9 +83,6 @@ Map::Map(int num_rows,
     FOR(i, 0, num_walls){
         int row = array_walls[i].getRow();
         int col = array_walls[i].getCol();
-        if (!(0 <= row && row < num_rows) || !(0 <= col && col < num_cols)){
-            continue;
-        }
         if (map[row][col]->getType() == ElementType::PATH){
             delete map[row][col];
             map[row][col] = new Wall();
@@ -96,9 +93,6 @@ Map::Map(int num_rows,
     FOR(i, 0, num_fake_walls){
         int row = array_fake_walls[i].getRow();
         int col = array_fake_walls[i].getCol();
-        if (!(0 <= row && row < num_rows) || !(0 <= col && col < num_cols)){
-            continue;
-        }
         if (map[row][col]->getType() == ElementType::PATH){
             delete map[row][col];
             map[row][col] = new FakeWall((row * 257 + col * 139 + 89) % 900 + 1);
